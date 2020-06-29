@@ -1,0 +1,31 @@
+os: linux
+dist: xenial
+
+language: python
+cache: pip
+python:
+  - "3.8"
+
+jobs:
+  include:
+    - name: "Linter"
+      before_script:
+        - pip install -q flake8
+      script:
+        - "flake8"
+
+    - name: "Django Test"
+      env:
+        global:
+          - USE_DOCKER="no"
+          - DATABASE_URL="postgres:///my_awesome_project"
+          - CELERY_BROKER_URL="redis://localhost:6379/0"
+      services:
+        - postgresql
+        - redis
+      install:
+        - pip install -r requirements/local.txt
+      before_script:
+        - celery multi start worker beat -A config.celery_app --pool=solo
+      script:
+        - "pytest"
