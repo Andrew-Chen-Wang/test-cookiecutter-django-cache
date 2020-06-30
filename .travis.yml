@@ -27,6 +27,7 @@ jobs:
         - sudo apt-get -q update
         - pip install -r requirements/local.txt
       before_script:
+        - psql -c 'create database my_awesome_project;' -U postgres
         - celery multi start beat worker -A config.celery_app --pool=solo
       script:
         - "pytest"
