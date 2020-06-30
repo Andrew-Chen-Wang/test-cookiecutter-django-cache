@@ -4,7 +4,7 @@ dist: xenial
 language: python
 cache: pip
 python:
-  - "3.7"
+  - "3.8"
 
 jobs:
   include:
@@ -26,6 +26,6 @@ jobs:
       install:
         - pip install -r requirements/local.txt
       before_script:
-        - celery multi start worker beat -A config.celery_app --pool=solo
+        - celery multi start beat worker -A config.celery_app --pool=solo
       script:
         - "pytest"
