@@ -5,12 +5,6 @@ language: python
 cache: pip
 python:
   - "3.8"
-  
-env:
-  global:
-    - USE_DOCKER="no"
-    - DATABASE_URL="postgres:///my_awesome_project"
-    - CELERY_BROKER_URL="redis://localhost:6379/0"
 
 jobs:
   include:
@@ -26,6 +20,10 @@ jobs:
         - redis
       install:
         - pip install -r requirements/local.txt
+      env:
+        - USE_DOCKER="no"
+        - DATABASE_URL="postgres:///my_awesome_project"
+        - CELERY_BROKER_URL="redis://localhost:6379/0"
       before_script:
         - psql -c 'create database my_awesome_project;' -U postgres
         - celery multi start beat worker -A config.celery_app --pool=solo
