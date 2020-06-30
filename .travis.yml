@@ -24,6 +24,7 @@ jobs:
         - postgresql
         - redis
       install:
+        - sudo apt-get -q update
         - pip install -r requirements/local.txt
       before_script:
         - celery multi start beat worker -A config.celery_app --pool=solo
