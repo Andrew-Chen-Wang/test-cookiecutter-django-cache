@@ -26,7 +26,7 @@ jobs:
         - CELERY_BROKER_URL="redis://localhost:6379/0"
       before_script:
         - psql -c 'create database my_awesome_project;' -U postgres
-        - mkdir /var/run/celery
+        - sudo mkdir /var/run/celery
         - chown -R $USER:$USER /var/run/celery/
         - celery multi start beat worker -A config.celery_app
       script:
