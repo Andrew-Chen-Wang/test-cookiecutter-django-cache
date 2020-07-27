@@ -31,3 +31,5 @@ jobs:
         - celery multi start beat worker -A config.celery_app
       script:
         - "pytest"
+      after_script:
+        - celery report
