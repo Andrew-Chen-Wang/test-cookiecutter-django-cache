@@ -28,6 +28,8 @@ jobs:
         - psql -c 'create database my_awesome_project;' -U postgres
         - sudo mkdir /var/run/celery
         - sudo mkdir /var/log/celery
+        - sudo chown travis /var/log/celery
+        - sudo chown travis /var/run/celery
         - celery multi start beat worker -A config.celery_app
       script:
         - "pytest"
